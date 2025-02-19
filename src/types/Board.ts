@@ -6,5 +6,5 @@ export interface Todo {
 export interface Board {
   id: number;
   title: string;
-  todos?: Todo[];
+  todos: Todo[];
 }
