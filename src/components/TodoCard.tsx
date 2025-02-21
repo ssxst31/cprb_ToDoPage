@@ -23,10 +23,6 @@ export default function TodoCard({ todo, boardId, index, isTodoOver, setHoveredT
     setHoveredTodoIndex(isTodoHovered ? index : null);
   }, [isTodoHovered]);
 
-  const handleDeleteTodo = () => {
-    deleteTodo(boardId, todo.id);
-  };
-
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsTodoHovered(true);
@@ -64,7 +60,13 @@ export default function TodoCard({ todo, boardId, index, isTodoOver, setHoveredT
           }}
           editIconColor="black"
         />
-        <button onClick={handleDeleteTodo}>
+        <button
+          onClick={() => {
+            if (window.confirm('해당 할 일을 삭제하시겠습니까?')) {
+              deleteTodo(boardId, todo.id);
+            }
+          }}
+        >
           <XMarkIcon width={20} height={20} color="black" />
         </button>
       </div>

@@ -74,7 +74,9 @@ const BoardCard = ({ board }: BoardCardProps) => {
           </button>
           <button
             onClick={() => {
-              deleteBoard(board.id);
+              if (window.confirm('해당 보드를 삭제하시겠습니까?')) {
+                deleteBoard(board.id);
+              }
             }}
           >
             <TrashIcon width={20} height={20} color="#FA2C37" />
