@@ -32,7 +32,7 @@ const EditableCard = ({ title, onEdit, editIconColor }: EditableCardProps) => {
   };
 
   return (
-    <div className="group flex justify-between items-center flex-1  h-11">
+    <div className="group flex justify-between items-center flex-1 h-11 w-11">
       {isEditing ? (
         <input
           type="text"
