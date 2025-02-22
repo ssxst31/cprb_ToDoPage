@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 칸반보드 프로젝트
 
-## Getting Started
+https://cprb-to-do-page.vercel.app
+<br/><br/>
 
-First, run the development server:
+# 📋 프로젝트 개요
+
+- 칸반 스타일의 To-Do 리스트 애플리케이션입니다.
+- 직관적인 UI와 간편한 조작으로 할 일을 관리할 수 있습니다.
+  <br/><br/>
+
+# 🏗️ 페이지 소개
+
+## 메인페이지
+
+- Tailwind CSS를 활용하여 반응형 UI를 구성했습니다.
+- 보드 생성, 수정, 삭제 및 순서 변경이 가능합니다.
+- 각 보드는 하나의 텍스트 박스를 가지며, 할 일을 추가할 수 있습니다.
+- 보드 내에서 할 일 추가, 삭제, 수정이 가능합니다.
+- 할 일은 드래그앤드롭을 통해 보드 간 이동할 수 있습니다.
+
+<br/><br/>
+
+# 👟 실행 방법
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br/>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# ⚙️ 기술스택
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 개발 언어: TypeScript
 
-## Learn More
+### 프레임워크: Next.js
 
-To learn more about Next.js, take a look at the following resources:
+### 스타일링: Tailwind CSS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 상태 관리: Zustand
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 기능 라이브러리: react-dnd
