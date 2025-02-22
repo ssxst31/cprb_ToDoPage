@@ -6,13 +6,13 @@ import { Board } from '@/types/Board';
 interface BoardStore {
   boards: Board[];
   addBoard: () => void;
-  editBoard: (id: number, title: string) => void;
-  deleteBoard: (id: number) => void;
+  updateBoardTitle: (boardId: number, title: string) => void;
+  deleteBoard: (boardId: number) => void;
   addTodo: (boardId: number) => void;
-  editTodo: (boardId: number, todoId: number, newContent: string) => void;
+  updateTodoContent: (boardId: number, todoId: number, content: string) => void;
   deleteTodo: (boardId: number, todoId: number) => void;
-  moveBoard: (id: number, targetId: number) => void;
-  moveTodo: (id: number, targetBoardId: number, todoId: number, newIndex: number | null) => void;
+  reorderBoard: (boardId: number, targetBoardId: number) => void;
+  reorderTodo: (boardId: number, targetBoardId: number, todoId: number, newIndex: number | null) => void;
 }
 
 export const useBoardStore = create<BoardStore>()(
@@ -23,32 +23,29 @@ export const useBoardStore = create<BoardStore>()(
         set((state) => ({
           boards: [...state.boards, { id: Date.now(), title: '새 보드', todos: [] }],
         })),
-      editBoard: (id, title) =>
+      updateBoardTitle: (boardId, title) =>
         set((state) => ({
-          boards: state.boards.map((board) => (board.id === id ? { ...board, title } : board)),
+          boards: state.boards.map((board) => (board.id === boardId ? { ...board, title } : board)),
         })),
-      deleteBoard: (id) =>
+      deleteBoard: (boardId) =>
         set((state) => ({
-          boards: state.boards.filter((board) => board.id !== id),
+          boards: state.boards.filter((board) => board.id !== boardId),
         })),
       addTodo: (boardId) =>
         set((state) => ({
           boards: state.boards.map((board) =>
             board.id === boardId
-              ? {
-                  ...board,
-                  todos: [...(board.todos || []), { id: Date.now(), content: '새 할 일' }],
-                }
+              ? { ...board, todos: [...board.todos, { id: Date.now(), content: '새 할 일' }] }
               : board
           ),
         })),
-      editTodo: (boardId, todoId, newContent) =>
+      updateTodoContent: (boardId, todoId, content) =>
         set((state) => ({
           boards: state.boards.map((board) =>
             board.id === boardId
               ? {
                   ...board,
-                  todos: board.todos?.map((todo) => (todo.id === todoId ? { ...todo, content: newContent } : todo)),
+                  todos: board.todos.map((todo) => (todo.id === todoId ? { ...todo, content } : todo)),
                 }
               : board
           ),
@@ -56,66 +53,44 @@ export const useBoardStore = create<BoardStore>()(
       deleteTodo: (boardId, todoId) =>
         set((state) => ({
           boards: state.boards.map((board) =>
-            board.id === boardId
-              ? {
-                  ...board,
-                  todos: board.todos?.filter((todo) => todo.id !== todoId),
-                }
-              : board
+            board.id === boardId ? { ...board, todos: board.todos.filter((todo) => todo.id !== todoId) } : board
           ),
         })),
-      moveBoard: (id, targetId) =>
+      reorderBoard: (boardId, targetBoardId) =>
         set((state) => {
-          const boardIndex = state.boards.findIndex((board) => board.id === id);
-          const targetIndex = state.boards.findIndex((board) => board.id === targetId);
-
           const boardsCopy = [...state.boards];
+          const fromIndex = boardsCopy.findIndex((board) => board.id === boardId);
+          const toIndex = boardsCopy.findIndex((board) => board.id === targetBoardId);
+          if (fromIndex === -1 || toIndex === -1) return state;
 
-          const [movedBoard] = boardsCopy.splice(boardIndex, 1);
-          boardsCopy.splice(targetIndex, 0, movedBoard);
+          const [movedBoard] = boardsCopy.splice(fromIndex, 1);
+          boardsCopy.splice(toIndex, 0, movedBoard);
 
           return { boards: boardsCopy };
         }),
-      moveTodo: (id, targetBoardId, todoId, newIndex) =>
+      reorderTodo: (sourceBoardId, targetBoardId, todoId, newIndex) =>
         set((state) => {
-          const sourceBoard = state.boards.find((b) => b.id === id);
-          const targetBoard = state.boards.find((b) => b.id === targetBoardId);
+          const sourceBoard = state.boards.find((board) => board.id === sourceBoardId);
+          const targetBoard = state.boards.find((board) => board.id === targetBoardId);
           if (!sourceBoard || !targetBoard) return state;
-
-          if (id === targetBoardId) {
-            const todoIndex = sourceBoard.todos.findIndex((todo) => todo.id === todoId);
-            if (todoIndex === -1) return state;
-
-            const todosCopy = [...sourceBoard.todos];
-            const [movedTodo] = todosCopy.splice(todoIndex, 1);
-            todosCopy.splice(newIndex ?? todosCopy.length, 0, movedTodo);
-
-            return {
-              boards: state.boards.map((b) => (b.id === id ? { ...b, todos: todosCopy } : b)),
-            };
-          }
 
           const todoIndex = sourceBoard.todos.findIndex((todo) => todo.id === todoId);
           if (todoIndex === -1) return state;
 
           const [movedTodo] = sourceBoard.todos.splice(todoIndex, 1);
-
-          const updatedTargetTodos = [...targetBoard.todos];
-          updatedTargetTodos.splice(newIndex ?? updatedTargetTodos.length, 0, movedTodo);
+          targetBoard.todos.splice(newIndex ?? targetBoard.todos.length, 0, movedTodo);
 
           return {
             boards: state.boards.map((board) =>
-              board.id === id
+              board.id === sourceBoardId
                 ? { ...board, todos: [...sourceBoard.todos] }
                 : board.id === targetBoardId
-                ? { ...board, todos: updatedTargetTodos }
+                ? { ...board, todos: [...targetBoard.todos] }
                 : board
             ),
           };
         }),
     }),
-    {
-      name: 'boards-storage',
-    }
+    { name: 'boards-storage' }
   )
 );

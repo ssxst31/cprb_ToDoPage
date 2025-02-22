@@ -13,7 +13,7 @@ interface BoardCardProps {
 }
 
 const BoardCard = ({ board }: BoardCardProps) => {
-  const { editBoard, deleteBoard, addTodo, moveBoard, moveTodo } = useBoardStore();
+  const { updateBoardTitle, deleteBoard, addTodo, reorderBoard, reorderTodo } = useBoardStore();
 
   const [hoveredTodoIndex, setHoveredTodoIndex] = useState<number | null>(null);
 
@@ -32,7 +32,7 @@ const BoardCard = ({ board }: BoardCardProps) => {
   const [{ isBoardOver }, boardDropRef] = useDrop(() => ({
     accept: 'board',
     drop: (item: { id: number }) => {
-      moveBoard(item.id, board.id);
+      reorderBoard(item.id, board.id);
     },
     collect: (monitor) => ({
       isBoardOver: monitor.isOver(),
@@ -42,7 +42,7 @@ const BoardCard = ({ board }: BoardCardProps) => {
   const [{ isTodoOver }, todoDropRef] = useDrop({
     accept: 'todo',
     drop(item: { id: number; boardId: number; index: number }) {
-      moveTodo(item.boardId, board.id, item.id, hoveredTodoIndex);
+      reorderTodo(item.boardId, board.id, item.id, hoveredTodoIndex);
     },
     collect: (monitor) => ({
       isTodoOver: monitor.isOver(),
@@ -64,7 +64,7 @@ const BoardCard = ({ board }: BoardCardProps) => {
         <EditableInput
           title={board.title}
           onEdit={(value: string) => {
-            editBoard(board.id, value);
+            updateBoardTitle(board.id, value);
           }}
           editIconColor="white"
         />

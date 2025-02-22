@@ -15,7 +15,7 @@ interface TodoCardProps {
 }
 
 export default function TodoCard({ todo, boardId, index, isTodoOver, setHoveredTodoIndex }: TodoCardProps) {
-  const { editTodo, deleteTodo } = useBoardStore();
+  const { updateTodoContent, deleteTodo } = useBoardStore();
 
   const [isTodoHovered, setIsTodoHovered] = useState(false);
 
@@ -56,7 +56,7 @@ export default function TodoCard({ todo, boardId, index, isTodoOver, setHoveredT
         <EditableInput
           title={todo.content}
           onEdit={(value: string) => {
-            editTodo(boardId, todo.id, value);
+            updateTodoContent(boardId, todo.id, value);
           }}
           editIconColor="black"
         />
