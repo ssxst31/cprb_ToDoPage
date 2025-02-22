@@ -1,6 +1,6 @@
 import { useBoardStore } from '@/hooks/useBoardStore';
 
-export default function AddBoardButton() {
+export default function CreateBoardButton() {
   const { addBoard } = useBoardStore();
 
   return (

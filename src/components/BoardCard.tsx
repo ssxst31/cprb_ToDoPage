@@ -5,7 +5,7 @@ import { Board } from '@/types/Board';
 import TrashIcon from '@/assets/icons/trash.svg';
 import PlusIcon from '@/assets/icons/plus.svg';
 import TodoCardList from '@/components/TodoCardList';
-import EditableInput from '@/components/EditableCard';
+import EditableInput from '@/components/EditableText';
 import { useBoardStore } from '@/hooks/useBoardStore';
 
 interface BoardCardProps {

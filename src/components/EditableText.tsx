@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import PencilIcon from '@/assets/icons/pencil.svg';
 
-interface EditableCardProps {
+interface EditableTextProps {
   title: string;
   onEdit: (value: string) => void;
   editIconColor: string;
 }
 
-const EditableCard = ({ title, onEdit, editIconColor }: EditableCardProps) => {
+const EditableText = ({ title, onEdit, editIconColor }: EditableTextProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentTitle, setCurrentTitle] = useState(title);
 
@@ -53,4 +53,4 @@ const EditableCard = ({ title, onEdit, editIconColor }: EditableCardProps) => {
   );
 };
 
-export default EditableCard;
+export default EditableText;

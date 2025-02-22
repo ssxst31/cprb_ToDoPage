@@ -1,6 +1,6 @@
 import BoardCard from '@/components/BoardCard';
 import { useBoardStore } from '@/hooks/useBoardStore';
-import AddBoardButton from '@/components/AddBoardButton';
+import AddBoardButton from '@/components/CreateBoardButton';
 
 export default function BoardCardList() {
   const { boards } = useBoardStore();

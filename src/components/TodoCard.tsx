@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd';
 import { useBoardStore } from '@/hooks/useBoardStore';
 import { Todo } from '@/types/Board';
 import XMarkIcon from '@/assets/icons/xMark.svg';
-import EditableInput from '@/components/EditableCard';
+import EditableText from '@/components/EditableText';
 
 interface TodoCardProps {
   todo: Todo;
@@ -53,7 +53,7 @@ export default function TodoCard({ todo, boardId, index, isTodoOver, setHoveredT
           dragRef(node);
         }}
       >
-        <EditableInput
+        <EditableText
           title={todo.content}
           onEdit={(value: string) => {
             updateTodoContent(boardId, todo.id, value);
